@@ -1,0 +1,9 @@
+20130313015416 WARN create_user Error: login already exists.
+20130313015426 WARN create_user Error: login already exists.
+20130313015459 WARN create_user Error: login already exists.
+20130313015544 INFO create_user created user: 
+daniel2:x:48:1:geco:/Users/Daniel/Documents/UCR/Classes/cs183/projects/2proj/cs183project2/home/mydir4:/bin/bash
+20130313015611 INFO create_user created user: daniel3:x:49:1:geco:/Users/Daniel/Documents/UCR/Classes/cs183/projects/2proj/cs183project2/home/mydir5:/bin/bash
+20130313015734 WARN add_group Error: group name already exists.
+20130313015738 WARN add_group Error: gid already exists.
+20130313015740 INFO add_group added group: daniel2:x:44:
