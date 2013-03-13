@@ -1,0 +1,58 @@
+#!/usr/csshare/bin/python
+
+# Daniel de Haas, Oliver Chou
+# 3/12/13
+# CS 183 - Winter '13
+# Project #2 - archive_user
+
+import re
+import os
+
+from Users import *
+from Logger import *
+from time import time
+
+# start logger
+logger = Logger()
+
+# check mandatory arguments
+mandatory_args = {'-l' : '<login>'}
+
+def print_usage():
+    usage = ''
+    for s in [key + ' ' + mandatory_args[key] for key in mandatory_args]:
+        usage += s + ' '
+    sys.stderr.write('Usage: ' + usage + '\n') 
+
+arguments = sys.argv[1:]
+if len(arguments) is not 2 * len(mandatory_args):
+    sys.stderr.write('Error: wrong number of command line arguments.\n')
+    print_usage()
+    sys.exit(1)
+
+args = {}
+for i in range(0, len(arguments), 2):
+    if arguments[i] not in mandatory_args:
+        sys.stderr.write('Error: unrecognized command line argument "' + arguments[i] + '"\n')
+        print_usage()
+        sys.exit(1)
+    args[arguments[i]] = arguments[i + 1]
+
+# check to see if login exists
+user = args['-l']
+if user in Users("./etc/passwd").users:
+	timestamp = int(time())
+
+	homeDir = "./home/%s" % (user)
+	archiveDir = "./archived_homedirs/%s.%s" % (user, timestamp)
+	cmdStr = "mv %s %s" % (homeDir, archiveDir)
+
+	os.sys(cmdStr)
+	
+	infoMsg = "Archived %s's home dir.\n" % (user)
+	logger.print_info(sys.argv[0], infoMsg) 
+else:
+	errorMsg = "User login doesn't exist!\n"
+	logger.print_warn(sys.argv[0], errorMsg)
+	sys.stderr.write(errorMsg)
+	sys.exit(1)
