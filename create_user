@@ -101,3 +101,13 @@ if cur_dir != home_dir:
     sys.stderr.write('Error: specified home directory not in home directory.\n')
     sys.exit(1)
 
+# add an entry to passwd for this user 
+f = open('etc/passwd', 'a')
+f.write('\n' + args['-l'] + ':x:' + args['-u'] + ':' + args['-g'] + ':' + args['-i'] + ':' + args['-d'] + ':' + args['-s'] + '\n')
+f.close()
+
+# create the home directory 
+os.system('mkdir ' + args['-d'])
+
+# copy etc/skel into the home dir
+os.system('cp -r etc/skel/ ' + args['-d'])
