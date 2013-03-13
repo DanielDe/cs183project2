@@ -10,3 +10,4 @@ disk:x:6:root
 lp:x:7:daemon,lp
 
 # this is another comment 
+daniel:x:42:
