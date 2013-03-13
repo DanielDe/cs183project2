@@ -1,2 +1,25 @@
-#!/usr/csshare/python
+#!/usr/csshare/bin/python
+
+import sys
+
+# check for mandatory command line arguments 
+mandatory_args = {'-n' : '<name>', '-g' : '<gid>'}
+
+def print_usage():
+    usage = ''
+    for s in [key + ' ' + mandatory_args[key] for key in mandatory_args]:
+        usage += s + ' '
+    sys.stderr.write('Usage: ' + usage + '\n') 
+
+arguments = sys.argv[1:]
+if len(arguments) is not 2 * len(mandatory_args):
+    sys.stderr.write('Error: wrong number of command line arguments.\n')
+    print_usage()
+    sys.exit(1)
+for i in range(0, len(arguments), 2):
+    if arguments[i] not in mandatory_args:
+        sys.stderr.write('Error: unrecognized command line argument "' + arguments[i] + '"\n')
+        print_usage()
+        sys.exit(1)
+    
 
