@@ -1,5 +1,10 @@
 #!/usr/csshare/bin/python
 
+# Daniel de Haas, Oliver Chou
+# 3/12/13
+# CS 183 - Winter '13
+# Project #2 - create_user
+
 import re 
 import sys
 import os

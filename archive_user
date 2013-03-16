@@ -5,12 +5,13 @@
 # CS 183 - Winter '13
 # Project #2 - archive_user
 
-import re
 import os
+import sys
+import datetime
+import time
 
-from Users import *
-from Logger import *
-from time import time
+from Users import User, Users 
+from Logger import Logger
 
 # start logger
 logger = Logger()
@@ -40,19 +41,39 @@ for i in range(0, len(arguments), 2):
 
 # check to see if login exists
 user = args['-l']
-if user in Users("./etc/passwd").users:
-	timestamp = int(time())
+passwd = "./etc/passwd"
+if user in Users(passwd).users:
+	unix_timestamp = int(time.time())
+	timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S') 
 
+	# moving files 
 	homeDir = "./home/%s" % (user)
-	archiveDir = "./archived_homedirs/%s.%s" % (user, timestamp)
+	archiveDir = "./archived_homedirs/%s.%s" % (user, unix_timestamp)
 	cmdStr = "mv %s %s" % (homeDir, archiveDir)
 
-	os.sys(cmdStr)
+	os.system(cmdStr)
+
+	# backing up ./etc/passwd file + loading file
+	f = open(passwd, 'r')
+	lines = f.readlines()
+	f.close()
+
+	cmdStr = "mv {0} {1}.{2}".format(passwd, passwd, timestamp)
+	os.system(cmdStr)
+
+	# removing user line from passwd file
+	fout = open('./etc/passwd', 'w')
+	for line in lines:
+			if line[:line.find(':')] == args['-l']:
+				pass
+			else:
+				fout.write(line)
+	fout.close()
 	
 	infoMsg = "Archived %s's home dir.\n" % (user)
 	logger.print_info(sys.argv[0], infoMsg) 
 else:
-	errorMsg = "User login doesn't exist!\n"
+	errorMsg = "User {0} doesn't exist!\n".format(user)
 	logger.print_warn(sys.argv[0], errorMsg)
 	sys.stderr.write(errorMsg)
 	sys.exit(1)
